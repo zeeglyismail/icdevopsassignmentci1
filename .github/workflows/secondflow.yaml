@@ -1,0 +1,15 @@
+name: Run After Detect
+
+on:
+  workflow_run:
+    workflows: ["Detect Changed Files"]
+    types:
+      - completed
+
+jobs:
+  next-job:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print message
+        run: echo "The Detect Changed Files workflow completed successfully. Running next job..."

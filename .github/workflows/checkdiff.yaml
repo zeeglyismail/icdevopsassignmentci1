@@ -1,4 +1,4 @@
-name: Detect_Changed_Files
+name: Detect Changed Files
 
 on:
   workflow_dispatch:  
@@ -13,7 +13,6 @@ jobs:
 
     outputs:
       changed: ${{ steps.get_changes.outputs.changed }}
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -26,3 +25,13 @@ jobs:
           echo "Changed files:"
           echo "$CHANGED_FILES"
           echo "changed=$CHANGED_FILES" >> "$GITHUB_OUTPUT"
+      - name: Save changed files to a file
+        run: |
+            echo "${{ steps.get_changes.outputs.changed }}" > changed_files.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+           name: changed-files
+           path: changed_files.txt
+

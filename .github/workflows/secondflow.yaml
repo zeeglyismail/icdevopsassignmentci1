@@ -1,19 +1,22 @@
-name: Run_After_Detect
+name: Run After Detect
 
 on:
-  workflow_dispatch:  
   workflow_run:
-    workflows: ["Detect_Changed_Files"]
+    workflows: ["Detect Changed Files"]
     types:
       - completed
 
 jobs:
-  always-run-job:
+  read-artifact:
     runs-on: ubuntu-latest
-    steps:
-      - name: Log previous workflow result
-        run: | 
-            echo "Previous workflow concluded with: ${{ github.event.workflow_run.conclusion }}"
 
-      - name: Continue with logic
-        run: echo "Running this workflow regardless of success or failure"
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: changed-files
+
+      - name: Show changed files
+        run: |
+          echo "Changed files from previous workflow:"
+          cat changed_files.txt

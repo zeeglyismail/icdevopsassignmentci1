@@ -7,9 +7,12 @@ on:
       - completed
 
 jobs:
-  next-job:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+  always-run-job:
     runs-on: ubuntu-latest
     steps:
-      - name: Print message
-        run: echo "The Detect Changed Files workflow completed successfully. Running next job..."
+      - name: Log previous workflow result
+        run: | 
+            echo "Previous workflow concluded with: ${{ github.event.workflow_run.conclusion }}"
+
+      - name: Continue with logic
+        run: echo "Running this workflow regardless of success or failure"

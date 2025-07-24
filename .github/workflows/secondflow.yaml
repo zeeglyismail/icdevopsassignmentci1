@@ -1,9 +1,9 @@
-name: Run After Detect
+name: Run_After_Detect
 
 on:
   workflow_dispatch:  
   workflow_run:
-    workflows: ["Detect Changed Files"]
+    workflows: ["Detect_Changed_Files"]
     types:
       - completed
 
